@@ -47,6 +47,7 @@ header{
 	border-radius: 50%;
 	transition: background-color 0.3s;
 	position: relative;
+	overflow: hidden;
 }
 
 .topnav #notif:hover {
@@ -130,6 +131,19 @@ header{
 	text-overflow: ellipsis;
 	display: block;
 	width: 100%;
+}
+
+@keyframes rock-animation {
+    0% { transform: translateX(0); scale: 110%;  }
+    25% { transform: translateX(-4px);}
+    50% { transform: translateX(0); }
+    75% { transform: translateX(4px);}
+    100% { transform: translateX(0);  scale: 100%; }
+}
+
+.rock {
+    animation: rock-animation 0.5s ease;
+    transform-origin: center center;
 }
 
 

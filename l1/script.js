@@ -1,14 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Get the notification button and indicator
     const notifButton = document.getElementById('notif');
     const notifIndicator = document.querySelector('.notification-indicator');
+    const notifIcon = notifButton.querySelector('svg');
     
-    // Add mouseenter event listener to hide the indicator when hovered
     notifButton.addEventListener('mouseenter', function() {
         notifIndicator.classList.add('hidden');
     });
     
-    // Function to show the indicator again (for testing purposes)
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space' && !event.repeat) {
+            event.preventDefault();
+            
+            notifIcon.classList.remove('rock');
+            
+            void notifIcon.offsetWidth;
+            
+            notifIcon.classList.add('rock');
+            
+            setTimeout(() => {
+                notifIcon.classList.remove('rock');
+            }, 500);
+      }
+    });
+    
     window.showNotificationIndicator = function() {
         notifIndicator.classList.remove('hidden');
     };
