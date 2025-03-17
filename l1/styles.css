@@ -46,6 +46,7 @@ header{
 .topnav #notif{
 	border-radius: 50%;
 	transition: background-color 0.3s;
+	position: relative;
 }
 
 .topnav #notif:hover {
@@ -64,6 +65,25 @@ header{
 	border: #535353 2px solid;
 }
 
+.notification-indicator {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.notification-indicator.hidden {
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* Notification preview */
+
 #notif:hover ~ .notif_preview {
     opacity: 1;
     pointer-events: auto;
@@ -80,7 +100,6 @@ header{
     top: 46px;
 }
 
-
 .notif_preview ul {
 	display: flex;
 	width: 230px;
@@ -91,17 +110,17 @@ header{
 	flex-direction: column;
 	border-radius: 10px;
 	border: #828282 2px solid;
-  }
+}
   
   .notif_preview ul li {
 	padding: 5px 10px;
 	display: flex;
 	align-items: center;
-  }
+}
   
   .notif_text {
 	overflow: hidden;
-  }
+}
   
   .notif_text p {
 	margin: 0;
@@ -111,9 +130,9 @@ header{
 	text-overflow: ellipsis;
 	display: block;
 	width: 100%;
-  }
+}
 
-  
+
 
 
 
