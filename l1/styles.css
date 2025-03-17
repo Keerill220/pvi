@@ -14,6 +14,7 @@
 header{
 	position: sticky;
 	top: 0px;
+	z-index: 2;
 }
 
 .topnav {
@@ -186,6 +187,51 @@ header{
     background-color: #bdbdbd;
 }
 
+/* Sidenav */
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 46px;
+    left: 0;
+    background-color: #f8f8f8;
+    overflow-x: hidden;
+    border-right: 1px solid #ddd;
+}
+
+.sidenav .nav-header {
+    padding: 15px;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #ddd;
+	font-size: 12px;
+}
+
+.sidenav a {
+    padding: 12px 15px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    border-bottom: 1px solid #eee;
+}
+
+.sidenav a:hover {
+    background-color: #ddd;
+}
+
+.sidenav a.active {
+    background-color: #e0e0e0;
+    border-left: 4px solid #828282;
+}
+
+
+.main-content {
+    margin-left: 200px;
+    padding: 0 15px;
+}
 
 
 
