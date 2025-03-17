@@ -146,6 +146,46 @@ header{
     transform-origin: center center;
 }
 
+.profile-container {
+    position: relative;
+    float: right;
+}
+
+.profile-container:hover .profile_dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.profile_dropdown {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    position: fixed;
+    right: 0;
+    top: 46px;
+    background-color: #dfdfdf;
+    border-radius: 5px;
+    border: #828282 1px solid;
+    overflow: hidden;
+    z-index: 1000;
+    margin-right: 2px;
+
+}
+
+.profile_dropdown .logout_btn {
+    display: block;
+	padding-top: 10px;
+	padding-bottom: 0px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.profile_dropdown .logout_btn:hover {
+    background-color: #bdbdbd;
+}
+
 
 
 

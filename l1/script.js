@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 notifIcon.classList.remove('rock');
+
+                notifIndicator.classList.remove('hidden');
             }, 500);
       }
     });
