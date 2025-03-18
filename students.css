@@ -4,6 +4,14 @@
     padding: 3px 8px;
     border-radius: 3px;
     border-bottom: none;
+    cursor: pointer;
+    background-color: rgb(225, 225, 225);
+    transition: all 0.2s;
+}
+
+.addButton:hover{
+    background-color: rgb(235, 235, 235);
+    transition: all 0.2s;
 }
 
 .popupAddContainer{
@@ -23,13 +31,97 @@
 }
 
 .popupAdd{
+    display: flex;
+    flex-direction: column;
     margin-top: -200px;
     background-color: rgb(137, 137, 137);
     border: 1px solid black;
     border-radius: 20px;
-    width: 60%;
-    height: 80%;
+    width: 40%;
+    height: 60%;
     transition: all 0.5s;
+}
+
+.closeButton{
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    background-color: rgba(0,0,0,0.0);
+    border: none;
+    cursor: pointer;
+}
+
+.closeButton:hover{
+    scale: 115%;
+    transition: all 0.2s;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 50px;
+    width: 100%;
+    margin-top: 0;
+    padding-top: 5px;
+}
+
+.addLabel{
+    padding-left: 15px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 15px;
+}
+
+.inputContainer div{
+    padding: 5px;
+    display: flex;
+    font-size: 20px;
+    margin: 10px;
+}
+
+.inputContainer span{
+    margin-right: 15px;
+}
+
+.saveButtonContainer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.saveButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 45px;
+    background-color: rgb(225, 225, 225);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+}
+
+.saveButton:hover{
+    background-color: rgb(235, 235, 235);
+    transition: all 0.2s;
+}
+
+
+table{
+    background-color: purple;
+}
+
+td, th{
+    background-color: white;
 }
 
 table, th, td {
@@ -43,6 +135,7 @@ table, th, td {
     border-radius: 50%;
     height: 15px;
     width: 15px;
+    margin-right: 5px;
 }
 
 table td{
@@ -68,5 +161,6 @@ table input{
 .status{
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }

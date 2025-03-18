@@ -87,10 +87,60 @@
 
     <button id="btnAdd" class="addButton">Add New</button>
 
+    <!-- Popup window for adding new student -->
     <div id="popup" class="popupAddContainer">
-      <span class="popupAdd"></span>
+      <div class="popupAdd">
+        <div class="buttonContainer"><span class="addLabel">Add Student</span><input id="btnClose" type="button" value="❌" class="closeButton"></div>
+        <div class="inputContainer">
+          
+          <div>
+            <span>Group</span>
+            <select name="Group" id="group" required>
+              <option value="">Select group</option>
+              <option value="PZ-21">PZ-21</option>
+              <option value="PZ-22">PZ-22</option>
+              <option value="PZ-23">PZ-23</option>
+              <option value="PZ-24">PZ-24</option>
+              <option value="PZ-25">PZ-25</option>
+              <option value="PZ-26">PZ-26</option>
+            </select>
+          </div>
+          
+          <div>
+            <span>First name</span>
+            <input type="text" id="firstName" required>
+          </div>
+          
+          <div>
+            <span>Last name</span>
+            <input type="text" id="lastName" required>
+          </div>
+
+          <div>
+            <span>Gender</span>
+            <select name="Gender" id="gender" required>
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <span>Birthday</span>
+            <input type="date" id="birthday" required>
+          </div>
+
+          <div class="saveButtonContainer">
+            <input type="button" value="Save" id="btnSave" class="saveButton">
+          </div>
+
+        </div>
+      
+      </div>
     </div>
 
+    <!-- Students table -->
   <div class="table-responsive">
     <table>
       <tr>
@@ -108,7 +158,7 @@
         <td>Mykola Kovpak</td>
         <td>m</td>
         <td>0.0.0.</td>
-        <td><span class="status"><span class="indicator"></span></span></td>
+        <td><span class="status"><span class="indicator"></span>Online</span></td>
         <td><input type="button" value="✏️"><input type="button" value="❌"></td>
       </tr>
     </table>
