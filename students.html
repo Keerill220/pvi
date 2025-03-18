@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel='stylesheet' href='styles.css'>
+	<link rel='stylesheet' href='navigation.css'>
+  <link rel="stylesheet" href="students.css">
 	<title>Students</title>
 
 </head>
@@ -67,6 +68,7 @@
 
   </header>
 
+  <main class="container">
   <!-- Side Navigation -->
   <nav class="sidenav">
     <div class="nav-header">
@@ -85,8 +87,13 @@
 
     <button>Add New</button>
 
+    <div class="popupAddContainer">
+      <span class="popupAdd"></span>
+    </div>
+
     <table>
       <tr>
+        <th><input type="checkbox"></th>
         <th>Group</th>
         <th>Name</th>
         <th>Gender</th>
@@ -95,18 +102,22 @@
         <th>Options</th>
       </tr>
       <tr>
+        <td><input type="checkbox"></td>
         <td>PZ-24</td>
         <td>Mykola Kovpak</td>
         <td>m</td>
         <td>0.0.0.</td>
-        <td>Online</td>
-        <td>00</td>
+        <td><span></span></td>
+        <td><input type="button" value="✏️"><input type="button" value="❌"></td>
       </tr>
     </table>
 
   </div>
 
+  </main>
+
 <script src="script.js"></script>
+<script src="students.js"></script>
 
 </body>
 </html>
