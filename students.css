@@ -33,11 +33,12 @@
 .popupAdd{
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: -200px;
     background-color: rgb(137, 137, 137);
     border: 1px solid black;
     border-radius: 20px;
-    width: 40%;
+    width: 30%;
     height: 60%;
     transition: all 0.5s;
 }
@@ -72,47 +73,11 @@
     font-weight: bold;
 }
 
-.inputContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 15px;
-}
-
-.inputContainer div{
-    padding: 5px;
-    display: flex;
-    font-size: 20px;
-    margin: 10px;
-}
-
-.inputContainer span{
-    margin-right: 15px;
-}
-
-.saveButtonContainer{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.saveButton{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-top: 45px;
-    background-color: rgb(225, 225, 225);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 16px;
-}
-
-.saveButton:hover{
-    background-color: rgb(235, 235, 235);
-    transition: all 0.2s;
+@media screen and (max-width: 768px) {
+    .popupAdd{
+        width: 90%;
+        height: 80%;
+    }
 }
 
 
@@ -163,4 +128,84 @@ table input{
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+/* Form styles */
+.student-form {
+    width: 90%;
+    padding: 10px 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-submit {
+    background-color: #979797;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #bfbfbf;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: #d32f2f;
 }
