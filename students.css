@@ -1,3 +1,37 @@
+.addButton{
+    display: flex;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border-bottom: none;
+}
+
+.popupAddContainer{
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    background-color: rgba(0,0,0,0.2);
+    transition: all 0.5s;
+}
+
+.popupAdd{
+    margin-top: -200px;
+    background-color: rgb(137, 137, 137);
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 60%;
+    height: 80%;
+    transition: all 0.5s;
+}
+
 table, th, td {
     border: 1px solid black;
     text-align: center;
@@ -35,30 +69,4 @@ table input{
     display: flex;
     justify-content: center;
     width: 100%;
-}
-
-.popupAddContainer{
-    display: flex;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    background-color: rgba(0,0,0,0.2);
-    transition: all 0.5s;
-}
-
-.popupAdd{
-    margin-top: -200px;
-    background-color: rgb(137, 137, 137);
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 60%;
-    height: 80%;
-    transition: all 0.5s;
 }
