@@ -228,7 +228,6 @@ header{
 }
 
 .container{
-    display: block !important;
     align-items: start;
     max-width: 100%;
     overflow-x: hidden;
