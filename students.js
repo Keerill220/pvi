@@ -1,3 +1,7 @@
+const students = [];
+const amount = 2;
+let page = 1;
+
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('btnAdd');
     const popupWindowContainer = document.querySelector('.popupAddContainer');
@@ -7,12 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const addStudentButton = document.getElementById('btnAddStudent');
     const studentForm = document.querySelector('.student-form');
     
-    addButton.addEventListener('click', function() {
+    addButton.addEventListener('click', openPopup);
+
+    function openPopup(){
         popupWindowContainer.style.opacity = '100%';
         popupWindowContainer.style.pointerEvents = 'all';
         popupWindow.style.marginTop = '0';
         popupWindow.style.backgroundColor = 'rgb(255,255,255)';
-    });
+    }
 
     function closePopup() {
         popupWindowContainer.style.opacity = '0';
@@ -24,23 +30,120 @@ document.addEventListener('DOMContentLoaded', function() {
 
     closeButton.addEventListener('click', closePopup);
 
-    // Ok button just closes the popup
-    okButton.addEventListener('click', closePopup);
+    okButton.addEventListener('click', function() {
 
-    // Add button validates and adds a new student
-    addStudentButton.addEventListener('click', function() {
-        // Basic form validation
-        const firstName = document.getElementById('studentFirstName').value;
-        const lastName = document.getElementById('studentLastName').value;
-        const group = document.getElementById('group').value;
+        let firstName = document.getElementById('studentFirstName').value;
+        let lastName = document.getElementById('studentLastName').value;
+        let group = document.getElementById('group').value;
+        let gender = document.getElementById('gender').value;
+        let date = document.getElementById('studentBirth').value;
+
+
+        if (!firstName || !lastName || !group || !date || !gender) {
+            closePopup();
+            return;
+        }
         
-        if (!firstName || !lastName || !group) {
+        students.push({
+            group: group,
+            firstName: firstName,
+            lastName: lastName,
+            date: date,
+            gender: gender
+        });
+
+        console.log(students);
+        renderStudentsTable();
+        closePopup();
+    });
+
+    addStudentButton.addEventListener('click', function() {
+
+        let firstName = document.getElementById('studentFirstName').value;
+        let lastName = document.getElementById('studentLastName').value;
+        let group = document.getElementById('group').value;
+        let gender = document.getElementById('gender').value;
+        let date = document.getElementById('studentBirth').value;
+
+
+        if (!firstName || !lastName || !group || !date || !gender) {
             alert('Please fill in all required fields');
             return;
         }
         
-        // TODO: Add student to the table
-        
+        students.push({
+            group: group,
+            firstName: firstName,
+            lastName: lastName,
+            date: date,
+            gender: gender
+        });
+
+        console.log(students);
+        renderStudentsTable();
         closePopup();
     });
+
+
+
+    renderStudentsTable();
 });
+
+function renderStudentsTable() {
+    const table = document.querySelector(".table-responsive table");
+    
+    // Keep the header row and remove all other rows
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+    
+    // Add student rows
+    students.forEach(student => {
+        const row = document.createElement("tr");
+        
+        const checkCell = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkCell.appendChild(checkbox);
+        row.appendChild(checkCell);
+        
+        const groupCell = document.createElement("td");
+        groupCell.textContent = student.group;
+        row.appendChild(groupCell);
+        
+        const nameCell = document.createElement("td");
+        nameCell.textContent = `${student.firstName} ${student.lastName}`;
+        row.appendChild(nameCell);
+        
+        const genderCell = document.createElement("td");
+        genderCell.textContent = student.gender;
+        row.appendChild(genderCell);
+        
+        const birthdayCell = document.createElement("td");
+        birthdayCell.textContent = student.date;
+        row.appendChild(birthdayCell);
+        
+        const statusCell = document.createElement("td");
+        const statusSpan = document.createElement("span");
+        statusSpan.className = "status";
+        const indicator = document.createElement("span");
+        indicator.className = "indicator";
+        statusSpan.appendChild(indicator);
+        statusSpan.appendChild(document.createTextNode("Online"));
+        statusCell.appendChild(statusSpan);
+        row.appendChild(statusCell);
+        
+        const optionsCell = document.createElement("td");
+        const editBtn = document.createElement("input");
+        editBtn.type = "button";
+        editBtn.value = "✏️";
+        const deleteBtn = document.createElement("input");
+        deleteBtn.type = "button";
+        deleteBtn.value = "❌";
+        optionsCell.appendChild(editBtn);
+        optionsCell.appendChild(deleteBtn);
+        row.appendChild(optionsCell);
+        
+        table.appendChild(row);
+    });
+}

@@ -193,19 +193,3 @@ table input{
     background-color: #bfbfbf;
 }
 
-.btn-cancel {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-cancel:hover {
-    background-color: #d32f2f;
-}
