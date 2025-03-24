@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gender: gender
         });
 
-        console.log(students);
+        console.log('Student added:', students);
         renderStudentsTable();
         closePopup();
     });
@@ -84,66 +84,80 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopup();
     });
 
+    function renderStudentsTable() {
+        const table = document.querySelector(".table-responsive table");
+        
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
+
+        const headerCheckbox = table.rows[0].cells[0].querySelector("input[type='checkbox']");
+        headerCheckbox.addEventListener("change", function() {
+            const checkboxes = table.querySelectorAll("tr td:first-child input[type='checkbox']");
+            checkboxes.forEach(checkbox => checkbox.checked = headerCheckbox.checked);
+        });
+
+        students.forEach((student, index) => {
+            const row = document.createElement("tr");
+            
+            const checkCell = document.createElement("td");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkCell.appendChild(checkbox);
+            row.appendChild(checkCell);
+            
+            const groupCell = document.createElement("td");
+            groupCell.textContent = student.group;
+            row.appendChild(groupCell);
+            
+            const nameCell = document.createElement("td");
+            nameCell.textContent = `${student.firstName} ${student.lastName}`;
+            row.appendChild(nameCell);
+            
+            const genderCell = document.createElement("td");
+            genderCell.textContent = student.gender;
+            row.appendChild(genderCell);
+            
+            const birthdayCell = document.createElement("td");
+            birthdayCell.textContent = student.date;
+            row.appendChild(birthdayCell);
+            
+            const statusCell = document.createElement("td");
+            const statusSpan = document.createElement("span");
+            statusSpan.className = "status";
+            const indicator = document.createElement("span");
+            indicator.className = "indicator";
+            statusSpan.appendChild(indicator);
+            statusSpan.appendChild(document.createTextNode("Online"));
+            statusCell.appendChild(statusSpan);
+            row.appendChild(statusCell);
+            
+            const optionsCell = document.createElement("td");
+            const editBtn = document.createElement("input");
+            editBtn.type = "button";
+            editBtn.value = "✏️";
+            const deleteBtn = document.createElement("input");
+            deleteBtn.type = "button";
+            deleteBtn.value = "❌";
+            deleteBtn.addEventListener("click", function() {
+                const checkboxes = table.querySelectorAll("tr td:first-child input[type='checkbox']");
+                for (let i = checkboxes.length - 1; i >= 0; i--) {
+                    if (checkboxes[i].checked) {
+                        students.splice(i, 1);
+                    }
+                }
+                console.log("Removed checked students");
+                console.log(students);
+                renderStudentsTable();
+            });
+            optionsCell.appendChild(editBtn);
+            optionsCell.appendChild(deleteBtn);
+            row.appendChild(optionsCell);
+            
+            table.appendChild(row);
+        });
+    }
 
 
     renderStudentsTable();
 });
-
-function renderStudentsTable() {
-    const table = document.querySelector(".table-responsive table");
-    
-    // Keep the header row and remove all other rows
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
-    
-    // Add student rows
-    students.forEach(student => {
-        const row = document.createElement("tr");
-        
-        const checkCell = document.createElement("td");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkCell.appendChild(checkbox);
-        row.appendChild(checkCell);
-        
-        const groupCell = document.createElement("td");
-        groupCell.textContent = student.group;
-        row.appendChild(groupCell);
-        
-        const nameCell = document.createElement("td");
-        nameCell.textContent = `${student.firstName} ${student.lastName}`;
-        row.appendChild(nameCell);
-        
-        const genderCell = document.createElement("td");
-        genderCell.textContent = student.gender;
-        row.appendChild(genderCell);
-        
-        const birthdayCell = document.createElement("td");
-        birthdayCell.textContent = student.date;
-        row.appendChild(birthdayCell);
-        
-        const statusCell = document.createElement("td");
-        const statusSpan = document.createElement("span");
-        statusSpan.className = "status";
-        const indicator = document.createElement("span");
-        indicator.className = "indicator";
-        statusSpan.appendChild(indicator);
-        statusSpan.appendChild(document.createTextNode("Online"));
-        statusCell.appendChild(statusSpan);
-        row.appendChild(statusCell);
-        
-        const optionsCell = document.createElement("td");
-        const editBtn = document.createElement("input");
-        editBtn.type = "button";
-        editBtn.value = "✏️";
-        const deleteBtn = document.createElement("input");
-        deleteBtn.type = "button";
-        deleteBtn.value = "❌";
-        optionsCell.appendChild(editBtn);
-        optionsCell.appendChild(deleteBtn);
-        row.appendChild(optionsCell);
-        
-        table.appendChild(row);
-    });
-}

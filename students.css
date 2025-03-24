@@ -193,3 +193,40 @@ table input{
     background-color: #bfbfbf;
 }
 
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.pagination-button {
+    background-color: #979797;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #bfbfbf;
+}
+
+.pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.current-page {
+    color: #555;
+}
+
