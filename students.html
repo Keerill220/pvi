@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Students Managment">
 	<link rel='stylesheet' href='navigation.css'>
   <link rel="stylesheet" href="students.css">
 	<title>Students</title>
@@ -29,7 +30,7 @@
         </div>
       </div>
       
-      <a id="notif" href="#">
+      <a aria-label="Notifications" id="notif" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" height="45px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
         <span class="notification-indicator"></span>
       </a>
@@ -95,7 +96,7 @@
         <form class="student-form">
           <div class="form-group">
             <label for="studentGroup">Group</label>
-            <select name="Group" id="group" required>
+            <select aria-label="Group" name="Group" id="group" required>
               <option value="PZ-21">PZ-21</option>
               <option value="PZ-22">PZ-22</option>
               <option value="PZ-23">PZ-23</option>
@@ -116,14 +117,12 @@
           </div>
           
           <div class="form-group">
-            <label>Gender</label>
-            <div class="form-group">
-              <select name="Gender" id="gender" required>
+              <label>Gender</label>
+              <select aria-label="Gender" name="Gender" id="gender" required>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-            </div>
           </div>
           
           <div class="form-group">
@@ -143,7 +142,7 @@
   <div class="table-responsive">
     <table>
       <tr>
-        <th><input type="checkbox"></th>
+        <th aria-label="Select all Column"><input aria-label="Select all" type="checkbox"></th>
         <th>Group</th>
         <th>Name</th>
         <th>Gender</th>
@@ -172,6 +171,18 @@
     <button class="pagination-button" id="nextPage">Next &raquo;</button>
   </div>
 
+  </div>
+
+  <!-- Delete Confirmation Popup -->
+  <div id="deleteConfirmation" class="confirmation-popup">
+    <div class="confirmation-content">
+      <h4>Confirm Deletion</h4>
+      <p id="deleteConfirmationText">Are you sure you want to delete this student?</p>
+      <div class="confirmation-buttons">
+        <button id="confirmDelete" class="btn-submit">Delete</button>
+        <button id="cancelDelete" class="btn-cancel">Cancel</button>
+      </div>
+    </div>
   </div>
 
   </main>

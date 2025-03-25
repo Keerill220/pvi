@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const addStudentButton = document.getElementById('btnAddStudent');
     const studentForm = document.querySelector('.student-form');
     
+    const deleteConfirmationPopup = document.getElementById('deleteConfirmation');
+    const deleteConfirmationText = document.getElementById('deleteConfirmationText');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
+    
+    let studentToDelete = null;
+    let multipleDelete = false;
+    
     addButton.addEventListener('click', openPopup);
 
     function openPopup(){
@@ -84,6 +92,22 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopup();
     });
 
+    function showDeleteConfirmation(message, callback) {
+        deleteConfirmationText.textContent = message;
+        deleteConfirmationPopup.style.display = 'flex';
+        
+        confirmDeleteBtn.onclick = function() {
+            callback();
+            hideDeleteConfirmation();
+        };
+    }
+    
+    function hideDeleteConfirmation() {
+        deleteConfirmationPopup.style.display = 'none';
+    }
+    
+    cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+
     function renderStudentsTable() {
         const table = document.querySelector(".table-responsive table");
         
@@ -101,8 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = document.createElement("tr");
             
             const checkCell = document.createElement("td");
+            checkCell.ariaLabel = "Select student cell";
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
+            checkbox.ariaLabel = "Select student";
             checkCell.appendChild(checkbox);
             row.appendChild(checkCell);
             
@@ -144,35 +170,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 const checkedBoxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
                 
                 if (checkedBoxes.length === 0) {
-                    const confirmDelete = confirm(`Delete student ${student.firstName} ${student.lastName}?`);
-                    if (confirmDelete) {
+                    // Delete just this row's student
+                    showDeleteConfirmation(`Delete student ${student.firstName} ${student.lastName}?`, function() {
                         students.splice(index, 1);
                         console.log(`Removed student: ${student.firstName} ${student.lastName}`);
                         renderStudentsTable();
-                    }
+                    });
                 }
                 else if (checkedBoxes.length === 1) {
+                    // Delete the checked student
                     const checkedIndex = Array.from(checkboxes).findIndex(checkbox => checkbox.checked);
                     const studentName = `${students[checkedIndex].firstName} ${students[checkedIndex].lastName}`;
                     
-                    const confirmDelete = confirm(`Delete student ${studentName}?`);
-                    if (confirmDelete) {
+                    showDeleteConfirmation(`Delete student ${studentName}?`, function() {
                         students.splice(checkedIndex, 1);
                         console.log(`Removed student: ${studentName}`);
                         renderStudentsTable();
-                    }
+                    });
                 }
                 else {
-                    for (let i = checkboxes.length - 1; i >= 0; i--) {
-                        if (checkboxes[i].checked) {
-                            students.splice(i, 1);
+                    // Delete multiple students
+                    showDeleteConfirmation(`Delete ${checkedBoxes.length} students?`, function() {
+                        for (let i = checkboxes.length - 1; i >= 0; i--) {
+                            if (checkboxes[i].checked) {
+                                students.splice(i, 1);
+                            }
                         }
-                    }
-                    console.log("Removed checked students");
-                    renderStudentsTable();
+                        console.log("Removed checked students");
+                        renderStudentsTable();
+                    });
                 }
-                
-                console.log(students);
             });
             optionsCell.appendChild(editBtn);
             optionsCell.appendChild(deleteBtn);
