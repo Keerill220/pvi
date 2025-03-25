@@ -141,14 +141,38 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteBtn.value = "❌";
             deleteBtn.addEventListener("click", function() {
                 const checkboxes = table.querySelectorAll("tr td:first-child input[type='checkbox']");
-                for (let i = checkboxes.length - 1; i >= 0; i--) {
-                    if (checkboxes[i].checked) {
-                        students.splice(i, 1);
+                const checkedBoxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+                
+                if (checkedBoxes.length === 0) {
+                    const confirmDelete = confirm(`Delete student ${student.firstName} ${student.lastName}?`);
+                    if (confirmDelete) {
+                        students.splice(index, 1);
+                        console.log(`Removed student: ${student.firstName} ${student.lastName}`);
+                        renderStudentsTable();
                     }
                 }
-                console.log("Removed checked students");
+                else if (checkedBoxes.length === 1) {
+                    const checkedIndex = Array.from(checkboxes).findIndex(checkbox => checkbox.checked);
+                    const studentName = `${students[checkedIndex].firstName} ${students[checkedIndex].lastName}`;
+                    
+                    const confirmDelete = confirm(`Delete student ${studentName}?`);
+                    if (confirmDelete) {
+                        students.splice(checkedIndex, 1);
+                        console.log(`Removed student: ${studentName}`);
+                        renderStudentsTable();
+                    }
+                }
+                else {
+                    for (let i = checkboxes.length - 1; i >= 0; i--) {
+                        if (checkboxes[i].checked) {
+                            students.splice(i, 1);
+                        }
+                    }
+                    console.log("Removed checked students");
+                    renderStudentsTable();
+                }
+                
                 console.log(students);
-                renderStudentsTable();
             });
             optionsCell.appendChild(editBtn);
             optionsCell.appendChild(deleteBtn);
