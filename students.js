@@ -1,6 +1,14 @@
 const students = [];
 const amount = 2;
 let page = 1;
+let nextStudentId = 1; 
+
+let editMode = false;
+let editStudentId = null;
+
+function generateStudentId() {
+    return String(nextStudentId++).padStart(8, '0');
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('btnAdd');
@@ -10,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const okButton = document.getElementById('btnOk');
     const addStudentButton = document.getElementById('btnAddStudent');
     const studentForm = document.querySelector('.student-form');
+    const popupTitle = document.querySelector('.addLabel');
     
     const deleteConfirmationPopup = document.getElementById('deleteConfirmation');
     const deleteConfirmationText = document.getElementById('deleteConfirmationText');
@@ -19,13 +28,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let studentToDelete = null;
     let multipleDelete = false;
     
-    addButton.addEventListener('click', openPopup);
+    addButton.addEventListener('click', function() {
+        editMode = false;
+        editStudentId = null;
+        openPopup("Add Student");
+        if (studentForm) studentForm.reset();
+    });
 
-    function openPopup(){
+    function openPopup(title = "Add Student"){
+        popupTitle.textContent = title;
         popupWindowContainer.style.opacity = '100%';
         popupWindowContainer.style.pointerEvents = 'all';
         popupWindow.style.marginTop = '0';
         popupWindow.style.backgroundColor = 'rgb(255,255,255)';
+        
+        if (editMode) {
+            okButton.style.display = 'block';
+            addStudentButton.style.display = 'none';
+        } else {
+            okButton.style.display = 'none';
+            addStudentButton.style.display = 'block';
+        }
     }
 
     function closePopup() {
@@ -34,60 +57,77 @@ document.addEventListener('DOMContentLoaded', function() {
         popupWindow.style.marginTop = '-100%';
         popupWindow.style.backgroundColor = 'rgb(137, 137, 137)';
         if (studentForm) studentForm.reset();
+        editMode = false;
+        editStudentId = null;
     }
 
     closeButton.addEventListener('click', closePopup);
 
     okButton.addEventListener('click', function() {
-
         let firstName = document.getElementById('studentFirstName').value;
         let lastName = document.getElementById('studentLastName').value;
         let group = document.getElementById('group').value;
         let gender = document.getElementById('gender').value;
         let date = document.getElementById('studentBirth').value;
-
 
         if (!firstName || !lastName || !group || !date || !gender) {
             closePopup();
             return;
         }
         
-        students.push({
-            group: group,
-            firstName: firstName,
-            lastName: lastName,
-            date: date,
-            gender: gender
-        });
+        if (editMode && editStudentId) {
+            const studentIndex = students.findIndex(s => s.id === editStudentId);
+            if (studentIndex !== -1) {
+                students[studentIndex] = {
+                    id: editStudentId,
+                    group: group,
+                    firstName: firstName,
+                    lastName: lastName,
+                    date: date,
+                    gender: gender
+                };
+                console.log('Student updated:', students[studentIndex]);
+            }
+        } else {
+            const newStudent = {
+                id: generateStudentId(),
+                group: group,
+                firstName: firstName,
+                lastName: lastName,
+                date: date,
+                gender: gender
+            };
+            students.push(newStudent);
+            console.log('Student added:', newStudent);
+        }
 
-        console.log('Student added:', students);
         renderStudentsTable();
         closePopup();
     });
 
     addStudentButton.addEventListener('click', function() {
-
         let firstName = document.getElementById('studentFirstName').value;
         let lastName = document.getElementById('studentLastName').value;
         let group = document.getElementById('group').value;
         let gender = document.getElementById('gender').value;
         let date = document.getElementById('studentBirth').value;
 
-
         if (!firstName || !lastName || !group || !date || !gender) {
             alert('Please fill in all required fields');
             return;
         }
         
-        students.push({
+        const newStudent = {
+            id: generateStudentId(),
             group: group,
             firstName: firstName,
             lastName: lastName,
             date: date,
             gender: gender
-        });
+        };
+        students.push(newStudent);
 
-        console.log(students);
+        console.log(newStudent);
         renderStudentsTable();
         closePopup();
     });
@@ -121,14 +161,16 @@ document.addEventListener('DOMContentLoaded', function() {
             checkboxes.forEach(checkbox => checkbox.checked = headerCheckbox.checked);
         });
 
-        students.forEach((student, index) => {
+        students.forEach((student) => {
             const row = document.createElement("tr");
+            row.dataset.studentId = student.id;
             
             const checkCell = document.createElement("td");
             checkCell.ariaLabel = "Select student cell";
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.ariaLabel = "Select student";
+            checkbox.dataset.studentId = student.id;
             checkCell.appendChild(checkbox);
             row.appendChild(checkCell);
             
@@ -162,6 +204,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const editBtn = document.createElement("input");
             editBtn.type = "button";
             editBtn.value = "✏️";
+            
+            editBtn.addEventListener("click", function() {
+                editMode = true;
+                editStudentId = student.id;
+                
+                document.getElementById('studentFirstName').value = student.firstName;
+                document.getElementById('studentLastName').value = student.lastName;
+                document.getElementById('group').value = student.group;
+                document.getElementById('gender').value = student.gender;
+                document.getElementById('studentBirth').value = student.date;
+                
+                openPopup("Edit Student");
+            });
+            
             const deleteBtn = document.createElement("input");
             deleteBtn.type = "button";
             deleteBtn.value = "❌";
@@ -170,32 +226,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 const checkedBoxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
                 
                 if (checkedBoxes.length === 0) {
-                    // Delete just this row's student
                     showDeleteConfirmation(`Delete student ${student.firstName} ${student.lastName}?`, function() {
-                        students.splice(index, 1);
-                        console.log(`Removed student: ${student.firstName} ${student.lastName}`);
-                        renderStudentsTable();
+                        const index = students.findIndex(s => s.id === student.id);
+                        if (index !== -1) {
+                            students.splice(index, 1);
+                            console.log(`Removed student: ${student.firstName} ${student.lastName}`);
+                            renderStudentsTable();
+                        }
                     });
                 }
                 else if (checkedBoxes.length === 1) {
-                    // Delete the checked student
-                    const checkedIndex = Array.from(checkboxes).findIndex(checkbox => checkbox.checked);
-                    const studentName = `${students[checkedIndex].firstName} ${students[checkedIndex].lastName}`;
+                    const checkedId = checkedBoxes[0].dataset.studentId;
+                    const checkedStudent = students.find(s => s.id === checkedId);
                     
-                    showDeleteConfirmation(`Delete student ${studentName}?`, function() {
-                        students.splice(checkedIndex, 1);
-                        console.log(`Removed student: ${studentName}`);
-                        renderStudentsTable();
-                    });
+                    if (checkedStudent) {
+                        showDeleteConfirmation(`Delete student ${checkedStudent.firstName} ${checkedStudent.lastName}?`, function() {
+                            const index = students.findIndex(s => s.id === checkedId);
+                            if (index !== -1) {
+                                students.splice(index, 1);
+                                console.log(`Removed student: ${checkedStudent.firstName} ${checkedStudent.lastName}`);
+                                renderStudentsTable();
+                            }
+                        });
+                    }
                 }
                 else {
-                    // Delete multiple students
                     showDeleteConfirmation(`Delete ${checkedBoxes.length} students?`, function() {
-                        for (let i = checkboxes.length - 1; i >= 0; i--) {
-                            if (checkboxes[i].checked) {
+                        const checkedIds = Array.from(checkedBoxes).map(checkbox => checkbox.dataset.studentId);
+                        
+                        for (let i = students.length - 1; i >= 0; i--) {
+                            if (checkedIds.includes(students[i].id)) {
                                 students.splice(i, 1);
                             }
                         }
+                        
                         console.log("Removed checked students");
                         renderStudentsTable();
                     });
@@ -208,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
             table.appendChild(row);
         });
     }
-
 
     renderStudentsTable();
 });
