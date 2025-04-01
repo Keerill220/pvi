@@ -8,6 +8,7 @@ const ASSETS = [
     "/students.js",
     "/students.css",
     "/students.html",
+    "/icons",
 ];
 
 self.addEventListener("install", (event) => {

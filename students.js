@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     date: date,
                     gender: gender
                 };
-                console.log('Student updated:', students[studentIndex]);
+                console.log('Student updated:', JSON.stringify(students[studentIndex]));
             }
         } else {
             const newStudent = {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 gender: gender
             };
             students.push(newStudent);
-            console.log('Student added:', newStudent);
+            console.log('Student added:', JSON.stringify(newStudent));
         }
 
         renderStudentsTable();
