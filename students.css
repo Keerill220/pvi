@@ -157,6 +157,25 @@ table input{
     box-sizing: border-box;
 }
 
+.form-group input:invalid,
+.form-group select:invalid {
+    border: 2px solid #ff4c4c !important;
+    background-color: #fff0f0 !important;
+}
+
+.form-group input:focus:invalid,
+.form-group select:focus:invalid {
+    outline: none;
+    box-shadow: 0 0 3px #ff4c4c;
+}
+
+.error-message {
+    color: #ff4c4c;
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 16px;
+}
+
 .radio-group {
     display: flex;
     gap: 20px;

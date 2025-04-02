@@ -28,6 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let studentToDelete = null;
     let multipleDelete = false;
     
+    // Set max date to today for date of birth input
+    const birthDateInput = document.getElementById('studentBirth');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayFormatted = `${year}-${month}-${day}`;
+    birthDateInput.max = todayFormatted;
+
     addButton.addEventListener('click', function() {
         editMode = false;
         editStudentId = null;
@@ -64,6 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
     closeButton.addEventListener('click', closePopup);
 
     okButton.addEventListener('click', function() {
+        if (!validateForm()) {
+            return;
+        }
+
         let firstName = document.getElementById('studentFirstName').value;
         let lastName = document.getElementById('studentLastName').value;
         let group = document.getElementById('group').value;
@@ -106,6 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     addStudentButton.addEventListener('click', function() {
+        if (!validateForm()) {
+            return;
+        }
+
         let firstName = document.getElementById('studentFirstName').value;
         let lastName = document.getElementById('studentLastName').value;
         let group = document.getElementById('group').value;
@@ -272,6 +289,75 @@ document.addEventListener('DOMContentLoaded', function() {
             table.appendChild(row);
         });
     }
+
+    // Add validation event listeners to form fields
+    const form = document.getElementById('studentForm');
+    const formInputs = form.querySelectorAll('input, select');
+    
+    formInputs.forEach(input => {
+        // Show validation message when field loses focus
+        input.addEventListener('blur', function() {
+            validateInput(this);
+        });
+        
+        // Clear validation error when user starts typing
+        input.addEventListener('input', function() {
+            const errorMessage = this.parentElement.querySelector('.error-message');
+            errorMessage.textContent = '';
+        });
+    });
+    
+    function validateInput(input) {
+        const errorMessage = input.parentElement.querySelector('.error-message');
+        
+        if (input.validity.valueMissing) {
+            errorMessage.textContent = 'This field is required';
+        } else if (input.validity.patternMismatch) {
+            errorMessage.textContent = input.title || 'Please match the requested format';
+        } else if (input.validity.rangeOverflow) {
+            errorMessage.textContent = 'Date cannot be in the future';
+        } else {
+            errorMessage.textContent = '';
+        }
+        
+        // Additional check for birth date to handle browsers that don't support max attribute
+        if (input.id === 'studentBirth' && input.value) {
+            const selectedDate = new Date(input.value);
+            const today = new Date();
+            
+            // Reset time portion for accurate date comparison
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate > today) {
+                errorMessage.textContent = 'Date of birth cannot be in the future';
+                input.setCustomValidity('Future date not allowed');
+                return false;
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+        
+        return input.validity.valid;
+    }
+    
+    // Validate all inputs before submitting
+    function validateForm() {
+        let isValid = true;
+        
+        formInputs.forEach(input => {
+            validateInput(input);
+            if (!input.validity.valid) {
+                isValid = false;
+            }
+        });
+        
+        return isValid;
+    }
+    
+    // Add specific validation for date input
+    birthDateInput.addEventListener('change', function() {
+        validateInput(this);
+    });
 
     renderStudentsTable();
 });
