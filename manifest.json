@@ -9,7 +9,6 @@
     "short_name":"Students",
     "description":"This is a Progressive Web Application for managing students of your school.",
     "start_url":"./index.html",
-    "scope":"./",
     "icons": [
         {
           "src": "./icons/icons.128.png",
